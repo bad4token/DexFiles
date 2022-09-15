@@ -4,15 +4,14 @@ require("dotenv").config();
 const { API_URL, PRIVATE_KEY } = process.env
 
 module.exports = {
-  solidity: "0.8.9",
-  networks: {
-    mumbai: {
-      url: API_URL,
-      accounts: [`0x${PRIVATE_KEY}`]
-    }
-  },
+  solidity: "0.8.17",
   paths: {
-    sources: "./contracts/",
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
     artifacts: "./artifacts"
+  },
+  mocha: {
+    timeout: 40000
   }
 };
