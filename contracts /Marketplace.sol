@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.9;
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "./IERC4907.sol";
 import "./Leasing.sol";
 
@@ -24,9 +25,12 @@ error Marketplace__YouHaveNoBalanceToWithdraw();
 error Marketplace__WithdrawFailed();
 
 ///@title A marketplace for renting NFT
+///@author Yannick J.
 ///@notice You can use this marketplace to list and manage all kind of renting NFT
 ///@dev The marketplace is lease contract compatible to respond to his particularity
 contract Marketplace is ReentrancyGuard {
+
+    AggregatorV3Interface internal priceFeedEth;
 
     struct Listing {
         address owner;
@@ -75,6 +79,10 @@ contract Marketplace is ReentrancyGuard {
 
     mapping(address => mapping(uint256 => Listing)) public listings;
     mapping(address => uint256) public rentBalance;
+
+    constructor(address priceFeedEthAddress) {
+        priceFeedEth = AggregatorV3Interface(priceFeedEthAddress);
+    }
 
 ///@notice List the NFT with the condition of the rent or lease
 ///@dev The address of the user and the expiration date is zero 
@@ -179,5 +187,10 @@ contract Marketplace is ReentrancyGuard {
         if(!success) {
             revert Marketplace__WithdrawFailed();
         }
+    }
+
+    function getLatestPriceEth() public view returns (uint) {
+        (,int price,,,) = priceFeedEth.latestRoundData();
+        return uint(price * 10000000000);
     }
 }
