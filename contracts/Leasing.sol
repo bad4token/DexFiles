@@ -57,6 +57,9 @@ contract Leasing is ERC721URIStorage, ERC4907, Ownable {
 
     bool internal _purchased;
     mapping(uint256 => LeasingInfo) public leases;
+    string public nameLeasingContract;
+    string public symbolLeasingContract;
+    address public ownerLeasingContract;
 
     constructor(string memory _name, string memory _symbol, address _owner) ERC4907("Car Leasing", "CL") {
         nameLeasingContract = _name;
