@@ -58,7 +58,11 @@ contract Leasing is ERC721URIStorage, ERC4907, Ownable {
     bool internal _purchased;
     mapping(uint256 => LeasingInfo) public leases;
 
-    constructor() ERC4907("Car Leasing", "CL") {}
+    constructor(string memory _name, string memory _symbol, address _owner) ERC4907("Car Leasing", "CL") {
+        nameLeasingContract = _name;
+        symbolLeasingContract = _symbol;
+        ownerLeasingContract = _owner;
+    }
 
 ///@notice Provide all the parameter of the lease at mint
 ///@dev While listing on a marketplace, these parameters have to be used in order to meet the condition of the lease
