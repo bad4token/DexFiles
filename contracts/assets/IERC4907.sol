@@ -1,9 +1,9 @@
-// SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+// SPDX-License-Identifier: CC0-1.0
+
+pragma solidity ^0.8.0;
 
 interface IERC4907 {
-
-    // Logged when the user of a NFT is changed or expires is changed
+    // Logged when the user of a token assigns a new user or updates expires
     /// @notice Emitted when the `user` of an NFT or the `expires` of the `user` is changed
     /// The zero address for user indicates that there is no user address
     event UpdateUser(uint256 indexed tokenId, address indexed user, uint64 expires);
@@ -13,7 +13,7 @@ interface IERC4907 {
     /// Throws if `tokenId` is not valid NFT
     /// @param user  The new user of the NFT
     /// @param expires  UNIX timestamp, The new user could use the NFT before expires
-    function setUser(uint256 tokenId, address user, uint64 expires) external;
+    function setUser(uint256 tokenId, address user, uint64 expires) external ;
 
     /// @notice Get the user address of an NFT
     /// @dev The zero address indicates that there is no user or the user is expired
